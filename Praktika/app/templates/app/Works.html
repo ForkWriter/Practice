@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml%22%3E">
+    <head>
+        <meta charset="utf-8" />
+        <title>Список работ</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
+    <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
+    <style>
+            td, th
+            {
+                width: 300px; 
+                height:60px; 
+                border: solid 1px silver; 
+                text-align:center;
+            }
+    </style>
+    </head>
+    <body class="container">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand">Биржа труда</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'work' %}">Работники</a></li>
+                    <li><a href="{% url 'works' %}">Список работ</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% if people.count > 0 %}
+    <h2>Список работников</h2>
+    <table>
+        <tr>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Отчество</th>
+            <th>Пол</th>
+            <th>Возраст</th>     
+            <th>Вид образования</th>
+            <th>Учебное учреждение</th>
+            <th>Специальность</th>
+            <th>Стаж</th>                        
+            <th>Доступные должности</th>
+        </tr>
+        {% for workers in vivod%}
+        <tr>
+            <td>{{ workers.fam }}</td>
+            <td>{{ workers.name }}</td>
+            <td>{{ workers.otch }}</td>
+            <td>{{ workers.sex }}</td>
+            <td>{{ workers.date }}</td>
+            <td>{{ workers.ed }}</td>
+            <td>{{ workers.school }}</td>
+            <td>{{ workers.spec }}</td>
+            <td>{{ workers.stage }}</td>
+            <td>
+                {% for i in workers.jobs %}
+                {{ i }}<br />
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+    </body>
+</html>

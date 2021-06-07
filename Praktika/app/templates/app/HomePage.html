@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Биржа Труда</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
+    <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
+    <style>
+            td, th
+            {
+                width: 300px; 
+                height:60px; 
+                border: solid 1px silver; 
+                text-align:center;
+            }
+    </style>
+</head>
+<body class="container">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand">Биржа труда</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <<li><a href="{% url 'work' %}">Работники</a></li>
+                    <li><a href="{% url 'works' %}">Список работ</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <h1>Добро пожаловать на Биржу труда!</h1>
+    <h3>Для того, чтобы проверить ваши возможные вакансии необходимо заполнить анкету на вкладке "Работники".</h3>
+    <h3>Там же вы сможете увидеть других претендентов на вакансии. После заполнения анкеты вы сможете увидеть вакансии, на которые вы смогли пройти по требованиям.</h3>
+    <h3>Для этого необходимо перейти в раздел "Список работ" и найти там себя. Список фирм и их вакансий приведен ниже.</h3>
+    <h2>Список фирм</h2>
+    <table>
+        <tr>
+            <th>Название фирмы</th>
+            <th>Адрес</th>
+            <th>Вакансии</th>
+        </tr>
+        {% for firm in firms %}
+        <tr>
+            <td>{{ firm.name }}</td>
+            <td>{{ firm.adr }}</td>
+            <td>
+                {% for i in firm.job %}
+                    {{ i }}<br/>
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

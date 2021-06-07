@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Работники</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
+    <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
+    <style>
+            td, th
+            {
+                width:200px;
+                height:60px; 
+                border: solid 1px silver; 
+                text-align:center;
+            }
+    </style>
+</head>
+<body class="container">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand">Биржа труда</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'work' %}">Работники</a></li>
+                    <li><a href="{% url 'works' %}">Список работ</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <h2>Добавление работника</h2>
+    <form method="POST" action="create/">
+        {% csrf_token %}
+        <p>
+            <label>Введите ФИО</label><br>
+            <input type="text" name="fam" autocomplete="off" required/>
+            <input type="text" name="name" autocomplete="off" required/>
+            <input type="text" name="otch" autocomplete="off"/>
+        </p>
+        <p>
+            <label>Укажите пол</label><br>
+            <input type="radio" value="Мужской" checked name="sex"/>Мужской<br/>
+            <input type="radio" value="Женский" name="sex"/>Женский
+        </p>
+        <p>
+            <label>Укажите дату рождения</label><br>
+            <input type="date" name="date" autocomplete="off" required/>
+        </p>
+        <p>
+            <label>Введите адрес</label><br>
+            <input type="text" name="adres" autocomplete="off"/>
+        </p>
+        <p>
+            <label>Укажите вид образования</label><br>
+            <select name="ed">
+                <option selected value="Нет">Нет</option>
+                <option value="Неполное среднее">Неполное среднее</option>
+                <option value="Среднее">Среднее</option>
+                <option value="Неполное высшее">Неполное высшее</option>
+                <option value="Высшее">Высшее</option>
+            </select>
+        </p>
+        <p>
+            <label>Введите учебное заведение</label><br>
+            <input type="text" name="school" autocomplete="off"/>
+        </p>
+        <p>
+            <label>Введите специальность</label><br>
+            <select name="spec">
+                <option selected value="Нет">Нет</option>
+                {% for i in specs %}
+                    {%if i.id_spec > 0 %}
+                        <option value={{ i.name }}>{{ i.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </p>
+        <p>
+            <label>Введите стаж</label><br>
+            <input type="number" selected value="0" name="stage" autocomplete="off"/>
+        </p>
+        <p>
+            <label>Введите дополнительные возможности</label><br>
+            <textarea rows="5" cols="45" name="add_abil"></textarea>
+        </p>
+        <p>
+            <label>Введите причину безработицы</label><br>
+            <textarea rows="5" cols="45" name="reasons" required></textarea>
+        </p>
+        <input type="submit" value="Добавить">
+    </form>
+    {% if people.count > 0 %}
+    <h2>Список работников</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Отчество</th>
+            <th>Пол</th>
+            <th>Дата рождения</th>
+            <th>Адрес</th>
+            <th>Вид образования</th>
+            <th>Учебное учреждение</th>
+            <th>Специальность</th>
+            <th>Стаж</th>
+            <th>Дополнительные возможности</th>
+            <th>Причина безработицы</th>
+        </tr>
+        {% for workers in people %}
+        <tr>
+            <td>{{ workers.id }}</td>
+            <td>{{ workers.fam }}</td>
+            <td>{{ workers.name }}</td>
+            <td>{{ workers.otch }}</td>
+            <td>{{ workers.sex }}</td>
+            <td>{{ workers.date }}</td>
+            <td>{{ workers.adres }}</td>
+            <td>{{ workers.ed }}</td>
+            <td>{{ workers.school }}</td>
+            <td>{{ workers.spec }}</td>
+            <td>{{ workers.stage }}</td>
+            <td>{{ workers.add_abil }}</td>
+            <td>{{ workers.reasons }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</body>
+</html>
